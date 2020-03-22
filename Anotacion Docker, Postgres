@@ -1,0 +1,10 @@
+1.- para crear un contenedor docker con postgres sql, con una bd llamada postgres, usuario postgres y clave Sebastian
+docker run --name postgresContainer -e POSTGRES_PASSWORD=Sebastian -d postgres -it
+
+2.- instalar psycopg2 driver para conexion con postgres
+
+3.- crear un contenedor desde una imagen de ubuntu
+docker run -it --name ubuntuContainer -p 5001:5001 -v "/home/seba/Proyectos/Docker/Ubuntu":"/var/python" custom-ubuntu /bin/bash
+
+4.- para guardar estado de la imagen docker
+docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
