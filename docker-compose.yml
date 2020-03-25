@@ -1,0 +1,35 @@
+version: "3.5"
+services:
+  db:
+    image: postgres
+    container_name: postgres_container
+    # build:
+    #   context: .
+    labels:
+      Author: "sebastian"
+    environment:
+      - POSTGRES_PASSWORD=somepassword
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=database
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    ports:
+      - '9001:5432'    
+    networks:
+      docker-network:
+        ipv4_address: "172.0.0.23"
+        # ipv6_address: 2001:3984:3989::10
+    restart: unless-stopped
+
+networks:
+  docker-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.0.0.0/24"
+        # - subnet: "2001:3984:3989::/64"
+volumes:
+    postgres:
