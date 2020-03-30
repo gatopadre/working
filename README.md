@@ -1,8 +1,14 @@
 # working
 A lot of stuff here
 
+# comando para correr este archivo Dockerfile
+docker build --tag [descripcion]-image .
+
 # para borrar todas las imagenes docker
 docker rmi -f $(docker images -q)
+
+# para borrar todos los contenedores de docker
+docker rm -f $(docker ps -a -q)
 
 # para crear un contenedor docker con postgres sql, con una bd llamada postgres, usuario postgres y clave Sebastian
 docker run --name postgresContainer -e POSTGRES_PASSWORD=Sebastian -d postgres -it
@@ -15,6 +21,14 @@ docker run -it --name ubuntuContainer \
 
 # para guardar estado de la imagen docker
 docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+# comando para correr desde dockerfile
+docker build --tag python_container .
+
+# comando para correr el archivo docker-compose.yml
+- docker-compose up
+ó
+- docker-compose up -d
 
 ############################################################
 COMANDO PARA CREAR EL CONTENEDOR POSTGRES STANDAR CONFIGURADO
@@ -33,3 +47,27 @@ docker run -it --name postgresContainerHost postgres:latest \
     -h postgresContainerHost \
     -l ["name=postgresContainer","version=1", "autor=Seba"] \
     /bin/bash
+
+# para sacar un contenedor para prueba básica de una imagen
+docker run -it --name infra_test infra_image:latest /bin/bash
+
+### receta dockerfile para crear una carpeta y hacer un archivo ###
+# step 1
+RUN mkdir -p /home/data
+# step 2
+RUN cd /home/data
+# step 3
+RUN touch /home/data/container.txt
+# step 4
+ADD ./data /home/data
+
+### creando una nueva imagen
+docker run -it --name installing_postgres -p 9001:5432 -v /home/seba/Works/Proyects/working/data:/var/lib/ postgresql/data/pgdata ubuntu_base
+
+# pal docker file
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+
+# pal dockerfile de postgres hay que verificar el estado del servicio
+service postgresql status
+# para levantar el servicio postgres
+service postgresql start

@@ -1,4 +1,6 @@
-version: "3.5"
+# Anotacion --> archivo que contiene la receta de la infraestructura que se requiere
+# Anotacion --> ara correr el archivo se usa docker-compose up || docker-compose up -d
+version: "3"
 services:
   db:
     image: postgres
@@ -30,6 +32,8 @@ services:
     # command: python manage.py runserver 0.0.0.0:8000
     labels:
       author: "SebaZuniga"
+    environment:
+      FLASK_ENV: development
     volumes:
       - .:/app
     ports:
@@ -49,4 +53,3 @@ networks:
         # - subnet: "2001:3984:3989::/64"
 volumes:
   postgres:
-### para correr el archivo se usa docker-compose up || docker-compose up -d ###
