@@ -71,3 +71,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 service postgresql status
 # para levantar el servicio postgres
 service postgresql start
+# para conectarse por terminal a postgres
+psql -h 172.17.0.2 -p 9001 -U postgres
+# para que postgres permita las conexiones externas hay que autorizar las ips desde el archivo /etc/postgresql/x.x/main/postgresql.conf
+listen_addresses = '*' # what IP address(es) to listen on; 
+# hay que habilidar la ip y su mascara para la conexion en el archivo vim /etc/postgresql/10/main/pg_hba.conf agregar la linea 
+host    all             all             172.17.0.1/16           trust
+# en la parte de
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+host    all             all             172.17.0.1/16           trust
+
+# instalar vim para cambiar datos de configuracion archivos postgres
+apt-get install vim
+
+# para actualizar la imagen tras la instalacion y configuracion de postgresql
+docker commit c121aff3457f ubuntu_base:latest
+
+# montando la imagen de python + postgres con puertos
+docker run -it --name init-container -p 9001:5432 -p 5001:5000 ubuntu_base:latest
+
