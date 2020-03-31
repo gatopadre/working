@@ -89,5 +89,24 @@ apt-get install vim
 docker commit c121aff3457f ubuntu_base:latest
 
 # montando la imagen de python + postgres con puertos
-docker run -it --name init-container -p 9001:5432 -p 5001:5000 ubuntu_base:latest
+docker run -it --name init-container -p 9001:5432 -p 5001:5001 ubuntu_base:latest
 
+### ARDUINO ###
+# por si pasa el problema de los permisos para arduino:
+# ver el puerto del dispositivo conectado
+ls /dev/tty*
+
+# otorgarle los permisos al dispositivo encontrado
+sudo chmod a+rw /dev/ttyUSB0
+
+# como hacer un delay de 1 segundo = 1000 milisegundos
+delay(1000); // Wait for 1000 millisecond(s)
+
+# como leer un solo caracter desde el puerto serial
+char option = Serial.read(); // para leer solo un caracter
+
+# dentro del archivo arduino/arduino.ino tiene la logica para recibir instrucciones por el puerto serial
+
+# innstrucciones reconocidas por el arduino:
+led on      -->     prender led que esta en la placa
+led off     -->     apager led que esta en la placa
